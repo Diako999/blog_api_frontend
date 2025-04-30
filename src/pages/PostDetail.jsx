@@ -7,30 +7,17 @@ function PostDetail() {
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/posts/${id}/`);
-        setPost(response.data);
-      } catch (err) {
-        console.error('Failed to fetch post details', err);
-      }
-    };
-
-    fetchPost();
+    axios.get(`http://localhost:8000/api/posts/${id}/`)
+      .then(res => setPost(res.data))
+      .catch(err => console.error(err));
   }, [id]);
 
+  if (!post) return <div className="text-center py-10 text-gray-600">Loading...</div>;
+
   return (
-    <div>
-      {post ? (
-        <div>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-          <p><strong>Author:</strong> {post.author}</p>
-          <p><strong>Created on:</strong> {new Date(post.created_at).toLocaleDateString()}</p>
-        </div>
-      ) : (
-        <p>Loading post...</p>
-      )}
+    <div className="max-w-3xl mx-auto px-4 py-10">
+      <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+      <p className="text-gray-700 text-lg leading-relaxed">{post.content}</p>
     </div>
   );
 }
