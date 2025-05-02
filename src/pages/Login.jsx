@@ -20,6 +20,7 @@ function Login() {
       });
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
+      localStorage.setItem('username', username);
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
       setLoading(false);
       navigate('/');
