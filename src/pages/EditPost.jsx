@@ -42,7 +42,7 @@ function EditPost() {
   return (
 <div className="max-w-2xl mx-auto mt-10 p-8 bg-white shadow-md rounded-md">
   <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Post</h2>
-  <form onSubmit={handleSubmit} className="space-y-6">
+  <form onSubmit={handleUpdate} className="space-y-6">
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
       <input

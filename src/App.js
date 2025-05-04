@@ -5,6 +5,7 @@ import CreatePost from "./pages/CreatePost";
 import Navbar from "./components/Navbar";
 import Register from './pages/Register';
 import Login from './pages/Login';
+import EditPost from './pages/EditPost'
 function App() {
   return (
     <Router>
@@ -15,6 +16,8 @@ function App() {
         <Route path="/create" element={<CreatePost />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/edit/:id" element={<EditPost />} />
+
       </Routes>
     </Router>
   );
