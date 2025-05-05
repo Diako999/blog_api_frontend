@@ -7,22 +7,34 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);  // Loading state
   const [error, setError] = useState('');
-  
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
+  const [currentPageUrl, setCurrentPageUrl] = useState('http://localhost:8000/api/posts/');
+
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/posts/');
-        setPosts(response.data);
-        setLoading(false);  // Stop loading after successful fetch
-      } catch (err) {
-        setLoading(false);
-        setError('Failed to fetch posts. Please try again.');
+        const response = await axios.get(currentPageUrl);
+        console.log('API response:', response.data); // Check what the structure is
+    
+        // Ensure we are accessing the posts correctly
+        if (response.data && Array.isArray(response.data.results)) {
+          setPosts(response.data.results); // Set the posts from the 'results' key
+          setNextPage(response.data.next); // Handle next page URL
+          setPrevPage(response.data.previous); // Handle previous page URL
+          setLoading(false)
+        } else {
+          setPosts([]); // Set to an empty array if no posts are found
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setLoading(false)
       }
     };
     
     fetchPosts();
-  }, []);
+  }, [currentPageUrl]);
   if (loading) {
     return <div><LoadingSpinner/></div>;  // Show loading message during fetch
   }
@@ -32,7 +44,7 @@ function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-6 text-center">Latest Posts</h1>
       <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {posts.map(post => (
@@ -46,6 +58,22 @@ function Home() {
             </Link>
           </div>
         ))}
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => prevPage && setCurrentPageUrl(prevPage)}
+          disabled={!prevPage}
+          className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => nextPage && setCurrentPageUrl(nextPage)}
+          disabled={!nextPage}
+          className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
