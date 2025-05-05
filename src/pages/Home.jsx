@@ -44,11 +44,11 @@ function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12 ">
       <h1 className="text-3xl font-bold mb-6 text-center">Latest Posts</h1>
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
         {posts.map(post => (
-          <div key={post.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow">
+          <div key={post.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow bg-white dark:bg-gray-800 text-black dark:text-white p-4">
             <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
             <p className="text-gray-700 mb-4">
               {post.content.length > 120 ? post.content.slice(0, 120) + '...' : post.content}

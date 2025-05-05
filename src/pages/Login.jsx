@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useToast } from '../components/ToasContext';
 
 function Login() {
+  const toast = useToast()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);  // Track loading state
@@ -23,10 +25,11 @@ function Login() {
       localStorage.setItem('username', username);
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
       setLoading(false);
+      toast('Login successful')
       navigate('/');
     } catch (err) {
       setLoading(false);  // Set loading to false if error occurs
-      setError('Login failed. Please check your credentials.');
+      toast('loginfailed, please chech credentials', 'error')
     }
   };
 

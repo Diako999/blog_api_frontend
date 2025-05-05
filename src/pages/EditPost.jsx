@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useToast } from '../components/ToasContext';
 function EditPost() {
+  const toast = useToast()
   const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
@@ -15,7 +16,7 @@ function EditPost() {
         setTitle(response.data.title);
         setContent(response.data.content);
       } catch (err) {
-        console.error('Failed to fetch post', err);
+        toast('failed to fetch post', 'error');
       }
     };
     fetchPost();
@@ -33,9 +34,10 @@ function EditPost() {
           },
         }
       );
+      toast('post updated');
       navigate(`/post/${id}`);
     } catch (err) {
-      console.error('Update failed', err);
+      toast('update failed', 'error');
     }
   };
 

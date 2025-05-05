@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useToast } from '../components/ToasContext';
 function CreatePost() {
+  const toast = useToast()
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate();
@@ -16,9 +17,10 @@ function CreatePost() {
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      toast('post created successfully')
       navigate(`/post/${response.data.id}`);
     } catch (error) {
-      console.error('Error creating post:', error);
+      toast('post creation failed, plese try again', 'error')
     }
   };
 

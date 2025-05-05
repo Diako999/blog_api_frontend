@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-
+import { useToast } from '../components/ToasContext';
 function Register() {
   const [username, setUsername] = useState('');
+  const toast = useToast()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,7 +17,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);  // Set loading to true
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      toast('passwords do not match', 'error')
       setLoading(false);
       return;
     }
@@ -30,7 +31,7 @@ function Register() {
       navigate('/login');
     } catch (err) {
       setLoading(false);
-      setError('Registration failed. Please try again.');
+      toast('registration failed, please try again', 'error');
     }
   };
 

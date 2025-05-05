@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Register from './pages/Register';
 import Login from './pages/Login';
 import EditPost from './pages/EditPost'
+import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <Router>
@@ -13,10 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/:id" element={<PostDetail />} />
-        <Route path="/create" element={<CreatePost />} />
+        <Route path="/create" element={<PrivateRoute><CreatePost /></PrivateRoute>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/edit/:id" element={<EditPost />} />
+        <Route path="/edit/:id" element={<PrivateRoute><EditPost /></PrivateRoute>} />
 
       </Routes>
     </Router>
