@@ -25,35 +25,44 @@ function CreatePost() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6">Create a New Post</h2>
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded shadow">
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full h-40 border border-gray-300 px-4 py-2 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
-      </form>
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-8 transition-colors duration-300">
+      <div className="container mx-auto px-4 max-w-lg">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">Create a New Post</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="title">
+              Title
+            </label>
+            <input
+              id="title"
+              type="text"
+              className="w-full p-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="content">
+              Content
+            </label>
+            <textarea
+              id="content"
+              className="w-full p-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="6"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Create Post
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

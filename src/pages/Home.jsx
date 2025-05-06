@@ -44,16 +44,20 @@ function Home() {
   }
 
   return (
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-8 transition-colors duration-300">
     <div className="container mx-auto px-4 py-12 ">
-      <h1 className="text-3xl font-bold mb-6 text-center">Latest Posts</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center" >Latest Posts</h1>
       <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
         {posts.map(post => (
-          <div key={post.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow bg-white dark:bg-gray-800 text-black dark:text-white p-4">
-            <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-            <p className="text-gray-700 mb-4">
+          <div key={post.id} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 transition-colors duration-300">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{post.title}</h2>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
+                By {post.author} • {new Date(post.created_at).toLocaleDateString()}
+              </p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
               {post.content.length > 120 ? post.content.slice(0, 120) + '...' : post.content}
             </p>
-            <Link to={`/post/${post.id}`} className="text-blue-500 hover:underline">
+            <Link to={`/post/${post.id}`} className="inline-block text-blue-600 dark:text-blue-400 hover:underline">
               Read more →
             </Link>
           </div>
@@ -75,6 +79,7 @@ function Home() {
           Next
         </button>
       </div>
+    </div>
     </div>
   );
 }

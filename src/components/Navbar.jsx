@@ -30,7 +30,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="shadow-md bg-white dark:bg-gray-800 text-black dark:text-white p-4">
+    <nav className="shadow-md bg-white dark:bg-gray-800 text-black dark:text-white p-4 transition-colors duration-300">
       <div className="container mx-auto flex justify-between items-center">
         <button
           onClick={toggleTheme}
@@ -41,7 +41,7 @@ function Navbar() {
         <Link to="/" className="text-xl font-bold">My Blog</Link>
         <div className="space-x-4 flex items-center">
         {isLoggedIn && (
-    <span className="text-sm text-gray-300">
+    <span className="text-sm text-gray-500">
       Welcome, {localStorage.getItem('username')}
     </span>
   )}
