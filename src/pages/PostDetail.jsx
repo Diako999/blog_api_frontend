@@ -10,7 +10,48 @@ function PostDetail() {
   const username = localStorage.getItem('username');
   const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
 
+
+useEffect(() => {
+  const fetchComments = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8000/api/comments/?post=${id}`);
+      console.log('Comments response:', res.data);
+      setComments(Array.isArray(res.data.results) ? res.data.results : []);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  fetchComments();
+}, [id]);
+
+
+  const handleCommentSubmit = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return alert("Login required");
+    if (!post) return;
+  
+    try {
+      await axios.post(
+        'http://localhost:8000/api/comments/',
+        { post: post.id, content: newComment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      // Re-fetch the full comment list
+      const res = await axios.get(`http://localhost:8000/api/comments/?post=${post.id}`);
+      setComments(prev => [...prev, res.data]);
+      setNewComment('');
+    } catch (error) {
+      console.error('Error submitting comment:', error.response?.data || error.message);
+    }
+  };
+  
+  
+  
   const handleEdit = () => {
     navigate(`/edit/${post.id}`);
   };
@@ -18,9 +59,9 @@ function PostDetail() {
   const handleDelete = async () => {
 
     try {
-      await axios.delete(`http://localhost:8000/api/posts/${post.id}/`, {
+      await axios.delete(`http://localhost:8000/api/posts/${id}/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${localStorage.getItem('access_token')}`
         }
       });
       toast('post deleted');
@@ -60,6 +101,38 @@ function PostDetail() {
         </div>
 
       )}
+      <div className="mt-4">
+  <h3 className="font-semibold dark:text-white mb-6 text-left">Tags:</h3>
+  <div className="flex flex-wrap gap-2 mt-1">
+    {post.tag_list.map((tag, index) => (
+      <span key={index} className="bg-blue-200 text-blue-800 px-2 py-1 rounded-full text-sm">
+        #{tag}
+      </span>
+    ))}
+  </div>
+</div>
+<div className="mt-6">
+  <h3 className="text-lg font-semibold mb-2 dark:text-white mb-6 text-left">Comments</h3>
+  {Array.isArray(comments) && comments.map(comment  => (
+    <div key={comment.id} className="border p-3 mb-2 rounded bg-gray-100">
+      <p className="text-sm text-gray-700">{comment.author_username} said:</p>
+      <p>{comment.content}</p>
+      <p className="text-xs text-gray-500">{new Date(comment.created).toLocaleString()}</p>
+    </div>
+  ))}
+
+  <textarea
+    value={newComment}
+    onChange={(e) => setNewComment(e.target.value)}
+    className="w-full mt-2 border rounded p-2"
+    rows="3"
+    placeholder="Write a comment..."
+  />
+  <button onClick={handleCommentSubmit} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+    Submit
+  </button>
+</div>
+
           <ConfirmModal
       isOpen={showConfirm}
       onCancel={() => setShowConfirm(false)}
