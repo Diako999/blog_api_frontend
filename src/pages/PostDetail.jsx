@@ -70,6 +70,18 @@ useEffect(() => {
       toast('delete failed', 'error')
     }
   };
+  const handleDeleteComment = async (comment)=>{
+    try {
+      await axios.delete(`http://localhost:8000/api/comments/${comment}/`, {
+        headers: {
+          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      toast('comment deleted');
+    }catch(err){
+      toast('delete failed', 'error')
+    }
+  }
   useEffect(() => {
     axios.get(`http://localhost:8000/api/posts/${id}/`)
       .then(res => setPost(res.data))
@@ -118,6 +130,16 @@ useEffect(() => {
       <p className="text-sm text-gray-700">{comment.author_username} said:</p>
       <p>{comment.content}</p>
       <p className="text-xs text-gray-500">{new Date(comment.created).toLocaleString()}</p>
+      {comment.author_username === username && (
+        <button
+        onClick={() => handleDeleteComment(comment.id)}
+        className="mt-2 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition duration-200"
+      >
+        Delete
+      </button>
+      
+      )}
+
     </div>
   ))}
 
