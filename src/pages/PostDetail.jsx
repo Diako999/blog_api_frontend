@@ -43,7 +43,7 @@ useEffect(() => {
   
       // Re-fetch the full comment list
       const res = await axios.get(`http://localhost:8000/api/comments/?post=${post.id}`);
-      setComments(prev => [...prev, res.data]);
+      setComments(res.data.results);
       setNewComment('');
     } catch (error) {
       console.error('Error submitting comment:', error.response?.data || error.message);
